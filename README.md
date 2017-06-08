@@ -1,8 +1,3 @@
-### Build from sources
-```
-gradlew install
-```
-
 ### What is it?
 This is add-on, that provides Drag & Drop functionality for UI platform components [CUBA.platform](https://www.cuba-platform.com).
 
@@ -18,6 +13,11 @@ UI components with Drag & Drop functionality:
   - DDCssLayout;
   - DDAbsoluteLayout;
   - DragAndDropWrapper.
+
+### Build from sources
+```
+gradlew install
+```
 
 ### Description
 This add-on contains components, that implement Drag & Drop functionality. To handle component's drop action it is necessary to implement DropHandler interface, that contains two methods:
