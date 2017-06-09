@@ -1,5 +1,5 @@
-### What is it?
-This is add-on, that provides Drag & Drop functionality for UI platform components [CUBA.platform](https://www.cuba-platform.com).
+### Preface
+This manual describes the DnD add-on that provides Drag & Drop functionality for UI platform components [CUBA.platform](https://www.cuba-platform.com).
 
 ### Dependencies
  - [vaadin add-on dragdroplayouts](https://github.com/parttio/dragdroplayouts)
@@ -20,48 +20,48 @@ gradlew install
 ```
 
 ### Description
-This add-on contains components, that implement Drag & Drop functionality. To handle component's drop action it is necessary to implement DropHandler interface, that contains two methods:
-- drop(DragAndDropEvent event) - method that handle transferable component's drop;
-- getCriterion() - returns the AcceptCriterion that used to evaluate whether the dragged component will be handed over to drop method.
+This add-on contains components that implement Drag & Drop functionality. To handle a component's drop action, it is necessary to implement DropHandler interface that contains two methods:
+- drop(DragAndDropEvent event) - method that handles transferable component's drop;
+- getCriterion() - returns the AcceptCriterion that is used to evaluate whether the dragged component will be handed over to drop method.
 
-In order to accept Drop event components must provide AcceptCriterion object. AcceptCriterion interface has two main inheritors - ServerSideCriterion and AcceptCriterionWrapper. If you want to check accept criterion on a browser side you have to implement AcceptCriterionWrapper interface.
+In order to accept a Drop event, components must provide the AcceptCriterion object. AcceptCriterion interface has two main inheritors - ServerSideCriterion and AcceptCriterionWrapper. If you want to check an accept criterion on a browser side, you have to implement AcceptCriterionWrapper interface.
 
 ### Quick start
-To use this add-on in Cuba Studio project follow next steps:
+To use this add-on in a CUBA Studio project, follow the steps below:
 
-1. Download it.
-2. In Cuba Studio Project Properties click on Edit. In the App Components section add this add-on.
-2. In xml file of your screen you should add following xmlns:
+1. Download the add-on.
+2. Edit Project Properties in CUBA Studio. On the App components panel click the plus button next to Custom components.
+3. In the Custom application component dialog, select the add-on in the Registered project drop-down list. 
+4. Add the following xmlns in in the XML descriptor of the screen:
 
 ```
 xmlns:dnd="http://schemas.haulmont.com/dnd/0.1/drag-and-drop.xsd"
 ```
 
-After completing this steps in Cuba Studio project will be available dnd components.
+After completing these steps, the DnD component will become available in CUBA Studio.
 
 #### Sample task
-Let's try to create a small todo-list app. It will provide a predefined set of tod-actions, that can be added to todo-list.
+Let's try to create a small todo-list app. It will provide a predefined set of todo-actions that can be added to the todo-list.
 
-To do this app it is necessary to implement next features:
+In this app we will implement the following features:
  - dragging components to the list;
  - reordering components in the list;
  - deleting components.
 
 #### Step-by-step guide
-Create a new CUBA project and add this add-on.
+Create a new CUBA project and add the DnD add-on to it.
 
 ![](/sreenshots/1-Adding-addon.png "Adding add-on")
 
-In the GENERIC UI tab create new "Blank screen".
+In the GENERIC UI tab create a new screen using "Blank screen" template.
 
-In this app we create two panels. First panel is a palette that contains actions,
-second is a dashboard that contains list of actions.
-First of all, add dependency in xml of the screen:
+We will divide this screen into two panels: the first panel is a palette that contains actions, the second is a dashboard that contains the list of actions.
+First of all, add the dependency to the XML descriptor of the screen:
 ```
 xmlns:dnd="http://schemas.haulmont.com/dnd/0.1/drag-and-drop.xsd"
 ```
 
-and add the following XML block:
+and add the following block:
 ```xml
 <layout>
     <hbox id="root"
@@ -97,20 +97,20 @@ and add the following XML block:
     </hbox>
 </layout>
 ```
-Component with id "rootPalette" contains set of predefined actions.
-These components can be dragged by users. Component with id "dashboard" contains a todo-list.
+Component with the "rootPalette" id contains the set of predefined actions.
+These components can be dragged by users. Component with the "dashboard" id contains a todo-list.
 
-Palette and Dashboard have property dragMode, which indicates that their components can be dragged.  
+Palette and Dashboard have property dragMode which indicates that their components can be dragged.  
 
-View of this xml in the running app:
+This is how the screen looks in the running app:
 
-![](/sreenshots/2-xml-without-buttons.png "View of xml in the running app")
+![](/sreenshots/2-xml-without-buttons.png "View of the screen in the running app")
 
-Next we should add actions that can be dragged by users and added in their list.
-As components for drag and drop we use buttons.
-Add set of buttons to the palette with follow ids: call, chat, meeting, buy.
+Next, we should add actions that can be dragged by users and added in their list.
+We will use buttons as the components for drag and drop.
+Add a set of buttons to the palette with follow ids: call, chat, meeting, buy.
 
-Your xml file should look like this:
+Your XML descriptor should look like this:
 
 ```xml
 <dnd:dndVBoxLayout id="palette"
@@ -139,9 +139,9 @@ Your xml file should look like this:
 
 Make sure that the buttons are added and they can be dragged:
 
-![](/sreenshots/3-xml-with-buttons.png "View of this xml with dragging buttons")
+![](/sreenshots/3-xml-with-buttons.png "View of the screen with draggable buttons")
 
-In the controller of the screen set DropHandler to the dashboard component:
+In the screen controller set DropHandler to the dashboard component:
 
 ```Java
 @Inject
@@ -163,19 +163,19 @@ public void init(Map<String, Object> params) {
 }
 ```
 
-Methods drop and getCriterion are invoked every time when dragging component is dropped to layout.
-In drop method we should implement our logic to handle component's drop.  
+The methods drop() and getCriterion() are invoked every time when the dragged component is dropped to the layout.
+In the drop() method we should implement our logic to handle component's drop.  
 
-Method getCriterion allows to specify criteria which accept dropping to this layout various components
+Method getCriterion() allows us to specify the criteria to accept dropping various components to this layout
 (e.g. only Labels and/or Buttons etc.). In this case we accept all components: AcceptCriterion.ACCEPT_ALL.
 
-If we run this app and try to drag button to the dashboard we will see that the dropping area is not highlighted.
-This is due to dashboard property height is AUTO. To expand this layout we should write some CSS in the extension theme of this app.
-To do this, we create extension theme in Project Properties.
+If we now run this app and try to drag a button to the dashboard, we will see that the dropping area is not highlighted.
+This is due to the dashboard property height which is set to AUTO. To expand this layout we should write some CSS in the extension theme of the app.
+To do this, we create a theme extension in Project Properties.
 
 ![](/sreenshots/4-theme-extention.png "Create extension theme")  
 
-Add follow code to the halo-ext.scss:
+Add the following code to the halo-ext.scss:
 
 ```css
 .min-height{
@@ -183,11 +183,11 @@ Add follow code to the halo-ext.scss:
 }
 ```
 
-and in the xml file of the screen add `stylename="min-height"` to the dashboard component. Launch and check:
+and in the XML descriptor of the screen add `stylename="min-height"` to the dashboard component. Launch the app and check:
 
 ![](/sreenshots/5-drop-area.png "Drop area")  
 
-Now we should create some panel to view added action in the list. For this task create next method that will return Component.
+Now we should create some panel to display the added action in the list. For this purpose, create the method that returns Component.
 
 ```Java
 public Component createDashboardElement(Component component) {
@@ -195,13 +195,13 @@ public Component createDashboardElement(Component component) {
 }
 ```
 
-As main component that added directly to the dashboard we use GroupBoxLayout. Add to the GroupBoxLayout HBoxLayout that contains next components:
+For the main component added directly to the dashboard we will use GroupBoxLayout. Then we will add HBoxLayout to the GroupBoxLayout and fill it with the components:
 - Label with appropriate serial number;
 - Label with name of action;
 - LookupField;
 - Button to remove from list.
 
-First create GroupBoxLayout and HBoxLayout, specify each component width 100% and add spacing to HBoxLayout:
+Firstly, create GroupBoxLayout and HBoxLayout, specify width 100% for both components and add spacing to HBoxLayout:
 
 ```Java
 GroupBoxLayout groupBox = factory.createComponent(GroupBoxLayout.class);
@@ -212,7 +212,7 @@ layout.setWidth("100%");
 layout.setSpacing(true);
 ```
 
-Next create main components for this panel. Don't need to set LookupField width because it will be expanded in HBoxLayout:
+Next, create main components for this panel. No need to set LookupField width as it will be expanded in HBoxLayout:
 
 ```Java
 Label countLabel = factory.createComponent(Label.class);
@@ -229,7 +229,7 @@ Button deleteButton = factory.createComponent(Button.class);
 deleteButton.setIcon("font-icon:TIMES");
 ```
 
-For delete button create BaseAction. The logic of deletion is implemented a little later:
+Create BaseAction for the delete button. We'll implement the logic of deletion a bit later:
 
 ```Java
 BaseAction action = new BaseAction("remove") {
@@ -253,18 +253,18 @@ layout.add(deleteButton);
 groupBox.add(layout);
 ```
 
-Now we should handle component's drop to the dashboard. DragAndDropEvent event variable contains information about which component is dragged, it's source layout, to which component, to which position etc. To get this information should use next classes:
+Now we should handle component's drop to the dashboard. DragAndDropEvent event variable contains information about which component is being dragged, its source layout, to which component, to which position etc. To get this information you should use the following classes:
 - LayoutBoundTransferable;
 - DDVerticalLayoutTargetDetails.
 
-In the drop method get references to the objects LayoutBoundTransferable and DDVerticalLayoutTargetDetails.
+In the drop() method we get references to the objects LayoutBoundTransferable and DDVerticalLayoutTargetDetails.
 
 ```java
 LayoutBoundTransferable t = (LayoutBoundTransferable) event.getTransferable();
 DDVerticalLayoutTargetDetails details = (DDVerticalLayoutTargetDetails) event.getTargetDetails();
 ```
 
-LayoutBoundTransferable contains next main methods:
+LayoutBoundTransferable contains two main methods:
 - getSourceComponent() - return the layout from which transferable component was dragged;
 - getTransferableComponent() - return transferable component;
 
@@ -273,20 +273,20 @@ Component sourceLayout = t.getSourceComponent();
 Component tComponent = t.getTransferableComponent();
 ```
 
-DDVerticalLayoutTargetDetails contains information about layout to which drop.
+DDVerticalLayoutTargetDetails contains information about layout to drop the component to (receiving layout).
 The main methods are:
 - getTarget() - return layout to which drop;
 - getOverComponent() - return child component of the target layout, to which drop transferable component;
 - getDropLocation() - return drop location (Middle, Top, Bottom);
 - getOverIndex() - return index of child component;
-Get references to the layout to which drop transferable component and VerticalDropLocation:
+Get references to the layout to drop the transferable component to and VerticalDropLocation:
 
 ```Java
 DDVerticalLayout targetLayout = (DDVerticalLayout) details.getTarget();
 VerticalDropLocation loc = details.getDropLocation();
 ```
 
-Next we should check whether transferable component is null. It is possible if we drag  highlighted html5 text, as it is not component.
+Next we should check whether transferable component is null. It is possible if we drag  highlighted html5 text, as it is not a component.
 
 ```Java
 if (tComponent == null) {
@@ -294,14 +294,14 @@ if (tComponent == null) {
 }
 ```
 
-Define index of component to which we drop (indexTo) and index of transferable component in the target layout (indexFrom). The last index is necessary if component is replaced in its layout. If component is dragged from another layout indexFrom will be -1.
+Define the index of component to which we drop (indexTo) and the index of transferable component in the target layout (indexFrom). The last index is necessary if the component is replaced in its layout. If a component is dragged from another layout, indexFrom will be -1.
 
 ```Java
 int indexTo = details.getOverIndex();
 int indexFrom = targetLayout.indexOf(tComponent);
 ```
 
-Create reference to the object that will be added to the layout and check whether component drag from another layout or it is just reordering in the source layout;
+Create reference to the object that will be added to the layout and check whether component is dragged from another layout, or it is just a reordering within the source layout;
 
 ```Java
 Component componentToAdd;
@@ -312,7 +312,7 @@ if (sourceLayout == targetLayout) {
 }
 ```
 
-If this condition is performing we should assign the componentToAdd reference to the dragged component. Then we should check whether component has changed his position or not. If the component has not changed its location, then finish method.
+If this condition is fulfilled, we should assign the componentToAdd reference to the dragged component. Then we should check whether the component has changed its position or not. If the component has not changed its location, then finish method.
 
 ```Java
 componentToAdd = tComponent;
@@ -321,7 +321,7 @@ if (indexFrom == indexTo) {
 }
 ```
 
-If the component has changed its location we must delete it from its layout. Then check if the index of the component to which dropped more than the index of the previous location, then we need to reduce it by one. This is because of removing component from layout.
+If the component has changed its location, we must delete it from its layout. Then check if the index of the receiving component is bigger than the index of the previous location, then we need to reduce it by one. This is because of removing the component from layout.
 
 ```Java
 targetLayout.remove(tComponent);
@@ -338,7 +338,7 @@ if (indexTo == -1) {
 }
 ```
 
-In case when component drag from another layout it is necessary to create appropriate component for view in dashboard. If the dragged component does not hit any of the components in the layout, we need to add to the end of the list of layout components.
+In case when component is dragged from another layout, it is necessary to create an appropriate component to display it in the dashboard. If the dragged component does not hit any of the components in the layout, we need to add it to the end of the list of layout components.
 
 ```Java
 if (sourceLayout == targetLayout) {
@@ -351,8 +351,8 @@ if (sourceLayout == targetLayout) {
 }
 ```
 
-Next we should check if the component hit to the child component of layout. If it hit we check drop location.
-If location is MIDDLE or BOTTOM, we must increase indexTo by one to add below component to which component was dragged.
+Next we should check if the component hits to the child component of layout. If it hits, we check the drop location.
+If location is MIDDLE or BOTTOM, we must increase indexTo by one to add below a component to which the component was dragged.
 
 ```java
 if (indexTo != -1) {
@@ -412,18 +412,18 @@ public void drop(DragAndDropEvent event) {
 }
 ```
 
-Launch and check:
+Launch the app and check:
 
 ![](/sreenshots/6-check-adding.png "Check adding components")  
 
-Note that serial numbers are not assigned to dashboard components. Create next method to fix it:
+Note that serial numbers are not assigned to dashboard components. Create the method to fix it:
 
 ```Java
 public void updateDashboardComponents(DDVerticalLayout layout) {
 
 }
 ```
-Need to set value to all countLabel. For this goal it is necessary to get list of child dashboard components.
+We need to set values to all countLabel. To achieve this, it is necessary to get the list of child dashboard components.
 
 ```Java
 List<Component> components = new ArrayList<>(layout.getOwnComponents());
@@ -436,13 +436,13 @@ for (Component component : components) {
 }
 ```
 
-Now at the end of drop method add follow invoke:
+Now at the end of drop() method add the follow invocation:
 
 ```Java
 updateDashboardComponents(targetLayout);
 ```
 
-It remains to implement removing component from dashboard. Add next code to actionPerfom:
+It remains to implement the component removing from the dashboard. Add this code to actionPerfom:
 
 ```Java
 public void actionPerform(Component component) {
@@ -454,4 +454,4 @@ public void actionPerform(Component component) {
 }
 ```
 
-Launch and check serial number updating and removing components.
+Launch the app and check that the serial numbers are updated and the components are removed.
