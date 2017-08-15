@@ -39,6 +39,14 @@ public class DefaultVerticalDropHandler implements DropHandler {
             return;
         }
 
+        Component parent = targetLayout;
+        while (parent != null) {
+            if (parent == component) {
+                return;
+            }
+            parent = parent.getParent();
+        }
+
         int indexTo = details.getOverIndex();
         int indexFrom = targetLayout.indexOf(component);
 

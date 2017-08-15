@@ -17,6 +17,7 @@
 
 package com.haulmont.addon.dnd.web.gui.components;
 
+import com.haulmont.addon.dnd.components.defaulthandlers.DefaultCssDropHandler;
 import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.cuba.gui.ComponentsHelper;
@@ -41,11 +42,12 @@ import java.util.*;
 public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements com.haulmont.addon.dnd.components.DDCssLayout, TargetConverter {
 
     protected LinkedList<Component> componentsList = new LinkedList<>();
-    private DragFilter dragFilter = DragFilter.ALL;
-    private DropHandler dropHandler;
+    protected DragFilter dragFilter = DragFilter.ALL;
+    protected DropHandler dropHandler;
 
     public WebDDCssLayout() {
         component = new WebDDCssLayoutImpl();
+        setDropHandler(new DefaultCssDropHandler());
     }
 
     @Override

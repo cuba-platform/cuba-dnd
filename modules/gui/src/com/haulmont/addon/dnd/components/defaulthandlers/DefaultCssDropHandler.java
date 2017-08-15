@@ -45,6 +45,14 @@ public class DefaultCssDropHandler implements DropHandler {
             return;
         }
 
+        Component parent = targetLayout;
+        while (parent != null) {
+            if (parent == component) {
+                return;
+            }
+            parent = parent.getParent();
+        }
+
         if (sourceLayout == targetLayout) {
             targetLayout.remove(component);
             if (overIndex >= 0 && overIndex < targetLayout.getComponents().size()) {

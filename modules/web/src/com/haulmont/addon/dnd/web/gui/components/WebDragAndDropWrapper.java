@@ -17,6 +17,7 @@
 
 package com.haulmont.addon.dnd.web.gui.components;
 
+import com.haulmont.addon.dnd.components.defaulthandlers.DefaultWrapperDropHandler;
 import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.cuba.gui.components.Component;
@@ -35,11 +36,12 @@ import java.util.*;
 
 public class WebDragAndDropWrapper extends WebAbstractComponent<CubaDragAndDropWrapper> implements DragAndDropWrapper, TargetConverter {
 
-    private Component childComponent;
-    private DropHandler dropHandler;
+    protected Component childComponent;
+    protected DropHandler dropHandler;
 
     public WebDragAndDropWrapper() {
         component = new DragAndDropWrapperImpl();
+        setDropHandler(new DefaultWrapperDropHandler());
     }
 
     @Override

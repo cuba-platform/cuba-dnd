@@ -41,6 +41,14 @@ public class DefaultHorizontalDropHandler implements DropHandler {
             return;
         }
 
+        Component parent = targetLayout;
+        while (parent != null) {
+            if (parent == component) {
+                return;
+            }
+            parent = parent.getParent();
+        }
+
         if (sourceLayout == targetLayout) {
             if (indexFrom == indexTo) {
                 return;

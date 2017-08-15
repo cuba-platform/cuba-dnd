@@ -17,6 +17,7 @@
 
 package com.haulmont.addon.dnd.web.gui.components;
 
+import com.haulmont.addon.dnd.components.defaulthandlers.DefaultAbsoluteDropHandler;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.cuba.gui.ComponentsHelper;
 import com.haulmont.cuba.gui.components.Component;
@@ -41,12 +42,13 @@ import java.util.*;
 
 public class WebDDAbsoluteLayout extends WebAbstractComponent<fi.jasoft.dragdroplayouts.DDAbsoluteLayout> implements DDAbsoluteLayout, TargetConverter {
 
-    private Map<Component, ComponentPosition> components = new WeakHashMap<>();
-    private DragFilter dragFilter = DragFilter.ALL;
-    private DropHandler dropHandler;
+    protected Map<Component, ComponentPosition> components = new WeakHashMap<>();
+    protected DragFilter dragFilter = DragFilter.ALL;
+    protected DropHandler dropHandler;
 
     public WebDDAbsoluteLayout() {
         component = new WebDDAbsoluteLayoutImpl();
+        setDropHandler(new DefaultAbsoluteDropHandler());
     }
 
     @Override

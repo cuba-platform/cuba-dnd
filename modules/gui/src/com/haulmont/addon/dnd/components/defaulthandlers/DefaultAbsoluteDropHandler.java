@@ -38,6 +38,14 @@ public class DefaultAbsoluteDropHandler implements DropHandler {
             return;
         }
 
+        Component parent = targetLayout;
+        while (parent != null) {
+            if (parent == component) {
+                return;
+            }
+            parent = parent.getParent();
+        }
+
         int leftPixelPosition = details.getRelativeLeft();
         int topPixelPosition = details.getRelativeTop();
 

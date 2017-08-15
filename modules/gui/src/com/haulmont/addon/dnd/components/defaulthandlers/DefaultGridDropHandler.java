@@ -39,6 +39,14 @@ public class DefaultGridDropHandler implements DropHandler {
             return;
         }
 
+        Component parent = targetLayout;
+        while (parent != null) {
+            if (parent == component) {
+                return;
+            }
+            parent = parent.getParent();
+        }
+
         if (over == null) {
             if (sourceLayout instanceof Component.Container) {
                 ((Component.Container) sourceLayout).remove(component);

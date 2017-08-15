@@ -18,6 +18,7 @@
 package com.haulmont.addon.dnd.web.gui.components;
 
 
+import com.haulmont.addon.dnd.components.defaulthandlers.DefaultHorizontalDropHandler;
 import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.addon.dnd.components.DDHorizontalLayout;
@@ -32,10 +33,11 @@ import java.util.*;
 
 public class WebDDHorizontalLayout extends WebDDAbstractOrderedLayout<fi.jasoft.dragdroplayouts.DDHorizontalLayout> implements DDHorizontalLayout, TargetConverter {
 
-    private DropHandler dropHandler;
+    protected DropHandler dropHandler;
 
     public WebDDHorizontalLayout() {
         component = new DDHorizontalLayoutImpl();
+        setDropHandler(new DefaultHorizontalDropHandler());
     }
 
     @Override

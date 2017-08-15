@@ -17,6 +17,7 @@
 
 package com.haulmont.addon.dnd.web.gui.components;
 
+import com.haulmont.addon.dnd.components.defaulthandlers.DefaultGridDropHandler;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.cuba.gui.ComponentsHelper;
 import com.haulmont.cuba.gui.components.Component;
@@ -46,11 +47,12 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
     protected List<Component> ownComponents = new ArrayList<>();
     protected LayoutEvents.LayoutClickListener layoutClickListener;
 
-    private DragFilter dragFilter = DragFilter.ALL;
-    private DropHandler dropHandler;
+    protected DragFilter dragFilter = DragFilter.ALL;
+    protected DropHandler dropHandler;
 
     public WebDDGridLayout() {
         component = new WebDDGridLayoutImpl();
+        setDropHandler(new DefaultGridDropHandler());
     }
 
     @Override

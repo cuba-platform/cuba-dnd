@@ -36,6 +36,14 @@ public class DefaultWrapperDropHandler implements DropHandler {
             return;
         }
 
+        Component parent = target;
+        while (parent != null) {
+            if (parent == component) {
+                return;
+            }
+            parent = parent.getParent();
+        }
+
         if (sourceLayout != target) {
             if (sourceLayout instanceof Component.Container) {
                 ((Component.Container) sourceLayout).remove(component);
