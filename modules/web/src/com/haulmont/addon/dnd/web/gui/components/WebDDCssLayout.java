@@ -93,6 +93,16 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
         return null;
     }
 
+    @Override
+    public void addShortcutAction(ShortcutAction action) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+
+    @Override
+    public void removeShortcutAction(ShortcutAction action) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+
     @Nullable
     @Override
     public Component getComponent(String id) {

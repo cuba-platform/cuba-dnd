@@ -263,6 +263,31 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
     }
 
     @Override
+    public void setMargin(com.haulmont.cuba.gui.components.MarginInfo marginInfo) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+
+    @Override
+    public com.haulmont.cuba.gui.components.MarginInfo getMargin() {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+
+    @Override
+    public void addShortcutAction(ShortcutAction action) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+
+    @Override
+    public void removeShortcutAction(ShortcutAction action) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+
+    @Override
+    public boolean getSpacing() {
+        return component.isSpacing();
+    }
+
+    @Override
     public DragFilter getDragFilter() {
         return dragFilter;
     }
