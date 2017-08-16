@@ -16,8 +16,8 @@
  */
 
 rootProject.name = 'dragandrop'
-include(':cubadnd-global', ':cubadnd-core', ':cubadnd-gui', ':cubadnd-web')
-project(':cubadnd-global').projectDir = new File(settingsDir, 'modules/global')
-project(':cubadnd-core').projectDir = new File(settingsDir, 'modules/core')
-project(':cubadnd-gui').projectDir = new File(settingsDir, 'modules/gui')
-project(':cubadnd-web').projectDir = new File(settingsDir, 'modules/web')
+include(':cuba-dnd-global', ':cuba-dnd-core', ':cuba-dnd-gui', ':cuba-dnd-web')
+project(':cuba-dnd-global').projectDir = new File(settingsDir, 'modules/global')
+project(':cuba-dnd-core').projectDir = new File(settingsDir, 'modules/core')
+project(':cuba-dnd-gui').projectDir = new File(settingsDir, 'modules/gui')
+project(':cuba-dnd-web').projectDir = new File(settingsDir, 'modules/web')

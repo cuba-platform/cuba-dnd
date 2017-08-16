@@ -36,10 +36,10 @@ buildscript {
     }
 }
 
-def globalModule = project(':cubadnd-global')
-def coreModule = project(':cubadnd-core')
-def guiModule = project(':cubadnd-gui')
-def webModule = project(':cubadnd-web')
+def globalModule = project(':cuba-dnd-global')
+def coreModule = project(':cuba-dnd-core')
+def guiModule = project(':cuba-dnd-gui')
+def webModule = project(':cuba-dnd-web')
 
 def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
 
@@ -127,7 +127,7 @@ configure(coreModule) {
 
     task cleanConf(description: 'Cleans up conf directory') {
         doLast {
-            def dir = new File(cuba.tomcat.dir, '/conf/cubadnd-core')
+            def dir = new File(cuba.tomcat.dir, '/conf/cuba-dnd-core')
             if (dir.isDirectory()) {
                 ant.delete(includeemptydirs: true) {
                     fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
@@ -137,8 +137,8 @@ configure(coreModule) {
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = 'cubadnd-core'
-        appJars('cubadnd-global', 'cubadnd-core')
+        appName = 'cuba-dnd-core'
+        appJars('cuba-dnd-global', 'cuba-dnd-core')
     }
 
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
@@ -167,7 +167,7 @@ configure(guiModule) {
     task deployConf(type: Copy) {
         from file('src')
         include "com/haulmont/addon/dnd/**"
-        into "$cuba.tomcat.dir/conf/cubadnd"
+        into "$cuba.tomcat.dir/conf/cuba-dnd"
     }
 }
 
@@ -195,17 +195,17 @@ configure(webModule) {
     task deployConf(type: Copy) {
         from file('src')
         include "com/haulmont/addon/dnd/**"
-        into "$cuba.tomcat.dir/conf/cubadnd"
+        into "$cuba.tomcat.dir/conf/cuba-dnd"
     }
 
     task clearMessagesCache(type: CubaClearMessagesCache) {
-        appName = 'cubadnd'
+        appName = 'cuba-dnd'
     }
     deployConf.dependsOn clearMessagesCache
 
     task cleanConf(description: 'Cleans up conf directory') {
         doLast {
-            def dir = new File(cuba.tomcat.dir, '/conf/cubadnd')
+            def dir = new File(cuba.tomcat.dir, '/conf/cuba-dnd')
             if (dir.isDirectory()) {
                 ant.delete(includeemptydirs: true) {
                     fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
@@ -215,8 +215,8 @@ configure(webModule) {
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = 'cubadnd'
-        appJars('cubadnd-global', 'cubadnd-gui', 'cubadnd-web')
+        appName = 'cuba-dnd'
+        appJars('cuba-dnd-global', 'cuba-dnd-gui', 'cuba-dnd-web')
     }
 }
 
@@ -224,13 +224,13 @@ configure(webModule) {
 
 
 
-task undeploy(type: Delete, dependsOn: ':cubadnd-web:cleanConf') {
+task undeploy(type: Delete, dependsOn: ':cuba-dnd-web:cleanConf') {
     delete("$cuba.tomcat.dir/shared")
-    delete("$cuba.tomcat.dir/webapps/cubadnd-core")
-    delete("$cuba.tomcat.dir/webapps/cubadnd")
+    delete("$cuba.tomcat.dir/webapps/cuba-dnd-core")
+    delete("$cuba.tomcat.dir/webapps/cuba-dnd")
 }
 
-task restart(dependsOn: ['stop', ':cubadnd-core:deploy', ':cubadnd-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') {
+task restart(dependsOn: ['stop', ':cuba-dnd-core:deploy', ':cuba-dnd-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') {
     doLast {
         ant.waitfor(maxwait: 6, maxwaitunit: 'second', checkevery: 2, checkeveryunit: 'second') {
             not {
