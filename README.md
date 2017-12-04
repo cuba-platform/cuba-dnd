@@ -14,6 +14,12 @@ UI components with Drag & Drop functionality:
   - DDAbsoluteLayout;
   - DragAndDropWrapper.
 
+### Compatibility with platform versions:
+| Add-on        | Platform      |
+|:------------- |:------------- |
+| 1.0.1         | 6.6+          |
+| 1.1           | 6.7+          |
+
 ### Build from sources
 ```
 gradlew install

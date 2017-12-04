@@ -398,6 +398,27 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
         return new DDGridLayoutTargetDetails(dataDetails, this);
     }
 
+    @Nullable
+    @Override
+    public Component getComponent(int columnIndex, int rowIndex) {
+        com.vaadin.ui.Component vComponent = this.component.getComponent(columnIndex, rowIndex);
+        return findChildComponent(this, vComponent);
+    }
+
+    @Nullable
+    @Override
+    public Area getComponentArea(Component childComponent) {
+        com.vaadin.ui.Component vComponent = childComponent.unwrapComposition(com.vaadin.ui.Component.class);
+        com.vaadin.ui.GridLayout.Area vArea = component.getComponentArea(vComponent);
+        if (vArea == null) {
+            return null;
+        }
+
+        return new Area(childComponent,
+                vArea.getColumn1(), vArea.getRow1(),
+                vArea.getColumn2(), vArea.getRow2());
+    }
+
     protected class WebDDGridLayoutImpl extends fi.jasoft.dragdroplayouts.DDGridLayout implements DraggedComponentWrapper {
 
         public WebDDGridLayoutImpl() {

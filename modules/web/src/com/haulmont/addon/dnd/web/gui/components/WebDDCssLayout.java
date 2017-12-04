@@ -242,6 +242,12 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
         return new DDCssLayoutTargetDetails(dataDetails, this);
     }
 
+    @Nullable
+    @Override
+    public Component getComponent(int index) {
+        return componentsList.get(index);
+    }
+
     protected class WebDDCssLayoutImpl extends DDCssLayout implements DraggedComponentWrapper {
 
         public WebDDCssLayoutImpl() {
