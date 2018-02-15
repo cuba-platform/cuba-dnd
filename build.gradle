@@ -16,10 +16,10 @@
  */
 
 buildscript {
-    ext.addonVersion = '1.1-SNAPSHOT'
+    ext.addonVersion = '1.2-SNAPSHOT'
     ext.addonVersion = rootProject.hasProperty('buildVersion') ? rootProject['buildVersion'] : addonVersion
 
-    ext.cubaVersion = '6.7.3'
+    ext.cubaVersion = '6.8.1'
     repositories {
         maven {
             url 'https://repo.cuba-platform.com/content/groups/work'
@@ -242,7 +242,7 @@ task restart(dependsOn: ['stop', ':cuba-dnd-core:deploy', ':cuba-dnd-web:deploy'
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
+    gradleVersion = '4.3.1'
 }
 
 apply from: 'extra.gradle'
