@@ -17,6 +17,7 @@ UI components with Drag & Drop functionality:
 ### Compatibility with platform versions:
 | Add-on        | Platform      |
 |:------------- |:------------- |
+| 1.2           | 6.8+          |
 | 1.1           | 6.7+          |
 | 1.0           | 6.6+          |
 
