@@ -17,14 +17,14 @@
 
 package com.haulmont.addon.dnd.web.gui.components;
 
-import com.haulmont.cuba.web.gui.components.WebAbstractBox;
 import com.haulmont.addon.dnd.components.DDLayout;
 import com.haulmont.addon.dnd.components.dragfilter.DragFilter;
 import com.haulmont.addon.dnd.components.enums.LayoutDragMode;
+import com.haulmont.cuba.web.gui.components.WebAbstractBox;
+import com.haulmont.cuba.web.widgets.addons.dragdroplayouts.interfaces.DragFilterSupport;
+import com.haulmont.cuba.web.widgets.addons.dragdroplayouts.interfaces.LayoutDragSource;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Component;
-import fi.jasoft.dragdroplayouts.interfaces.DragFilterSupport;
-import fi.jasoft.dragdroplayouts.interfaces.LayoutDragSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,19 +41,19 @@ public abstract class WebDDAbstractOrderedLayout<T extends AbstractOrderedLayout
     public void setDragMode(LayoutDragMode startMode) {
         switch (startMode) {
             case NONE:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.NONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.NONE);
                 break;
             case CLONE:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CLONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CLONE);
                 break;
             case CAPTION:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CAPTION);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CAPTION);
                 break;
             case CLONE_OTHER:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CLONE_OTHER);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CLONE_OTHER);
                 break;
             default:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.NONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.NONE);
         }
     }
 

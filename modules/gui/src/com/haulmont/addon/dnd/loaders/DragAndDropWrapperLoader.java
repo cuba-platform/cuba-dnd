@@ -17,15 +17,15 @@
 
 package com.haulmont.addon.dnd.loaders;
 
+import com.haulmont.addon.dnd.components.DragAndDropWrapper;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.gui.xml.layout.loaders.ContainerLoader;
-import com.haulmont.addon.dnd.components.DragAndDropWrapper;
 
 
 public class DragAndDropWrapperLoader extends ContainerLoader<DragAndDropWrapper> {
     @Override
     public void createComponent() {
-        resultComponent = factory.createComponent(DragAndDropWrapper.class);
+        resultComponent = factory.create(DragAndDropWrapper.class);
         loadId(resultComponent, element);
         createSubComponents(resultComponent, element);
     }

@@ -17,30 +17,30 @@
 
 package com.haulmont.addon.dnd.web.gui.components;
 
-import com.haulmont.addon.dnd.components.defaulthandlers.DefaultAbsoluteDropHandler;
-import com.haulmont.bali.util.Preconditions;
-import com.haulmont.cuba.gui.ComponentsHelper;
-import com.haulmont.cuba.gui.components.Component;
-import com.haulmont.cuba.web.gui.components.WebAbstractComponent;
 import com.haulmont.addon.dnd.components.ComponentPosition;
 import com.haulmont.addon.dnd.components.DDAbsoluteLayout;
 import com.haulmont.addon.dnd.components.DDAbsoluteLayoutTargetDetails;
 import com.haulmont.addon.dnd.components.DropHandler;
+import com.haulmont.addon.dnd.components.defaulthandlers.DefaultAbsoluteDropHandler;
 import com.haulmont.addon.dnd.components.dragevent.Constants;
 import com.haulmont.addon.dnd.components.dragevent.TargetDetails;
 import com.haulmont.addon.dnd.components.dragfilter.DragFilter;
 import com.haulmont.addon.dnd.components.enums.LayoutDragMode;
+import com.haulmont.bali.util.Preconditions;
+import com.haulmont.cuba.gui.ComponentsHelper;
+import com.haulmont.cuba.gui.components.Component;
+import com.haulmont.cuba.web.gui.components.WebAbstractComponent;
+import com.haulmont.cuba.web.widgets.addons.dragdroplayouts.details.AbsoluteLayoutTargetDetails;
+import com.haulmont.cuba.web.widgets.addons.dragdroplayouts.events.LayoutBoundTransferable;
 import com.vaadin.event.Transferable;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
-import fi.jasoft.dragdroplayouts.details.AbsoluteLayoutTargetDetails;
-import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class WebDDAbsoluteLayout extends WebAbstractComponent<fi.jasoft.dragdroplayouts.DDAbsoluteLayout> implements DDAbsoluteLayout, TargetConverter {
+public class WebDDAbsoluteLayout extends WebAbstractComponent<com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDAbsoluteLayout> implements DDAbsoluteLayout, TargetConverter {
 
     protected Map<Component, ComponentPosition> components = new WeakHashMap<>();
     protected DragFilter dragFilter = DragFilter.ALL;
@@ -141,20 +141,17 @@ public class WebDDAbsoluteLayout extends WebAbstractComponent<fi.jasoft.dragdrop
     @Override
     public void setDragFilter(DragFilter dragFilter) {
         this.dragFilter = dragFilter;
-        component.setDragFilter(new fi.jasoft.dragdroplayouts.interfaces.DragFilter() {
-            @Override
-            public boolean isDraggable(com.vaadin.ui.Component component) {
-                Set<Component> set = components.keySet();
-                Iterator<Component> iterator = set.iterator();
-                Component componentToCheck = null;
-                while (iterator.hasNext()) {
-                    componentToCheck = iterator.next();
-                    if (componentToCheck.unwrap(com.vaadin.ui.Component.class) == component) {
-                        break;
-                    }
+        component.setDragFilter((com.haulmont.cuba.web.widgets.addons.dragdroplayouts.interfaces.DragFilter) component -> {
+            Set<Component> set = components.keySet();
+            Iterator<Component> iterator = set.iterator();
+            Component componentToCheck = null;
+            while (iterator.hasNext()) {
+                componentToCheck = iterator.next();
+                if (componentToCheck.unwrap(com.vaadin.ui.Component.class) == component) {
+                    break;
                 }
-                return dragFilter.isDraggable(componentToCheck);
             }
+            return dragFilter.isDraggable(componentToCheck);
         });
     }
 
@@ -162,19 +159,19 @@ public class WebDDAbsoluteLayout extends WebAbstractComponent<fi.jasoft.dragdrop
     public void setDragMode(LayoutDragMode startMode) {
         switch (startMode) {
             case NONE:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.NONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.NONE);
                 break;
             case CLONE:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CLONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CLONE);
                 break;
             case CLONE_OTHER:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CLONE_OTHER);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CLONE_OTHER);
                 break;
             case CAPTION:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CAPTION);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CAPTION);
                 break;
             default:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.NONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.NONE);
         }
     }
 
@@ -237,7 +234,7 @@ public class WebDDAbsoluteLayout extends WebAbstractComponent<fi.jasoft.dragdrop
         return new DDAbsoluteLayoutTargetDetails(this, dataDetails);
     }
 
-    protected class WebDDAbsoluteLayoutImpl extends fi.jasoft.dragdroplayouts.DDAbsoluteLayout implements DraggedComponentWrapper {
+    protected class WebDDAbsoluteLayoutImpl extends com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDAbsoluteLayout implements DraggedComponentWrapper {
 
         @Override
         public Component getDraggedComponent(Transferable t) {

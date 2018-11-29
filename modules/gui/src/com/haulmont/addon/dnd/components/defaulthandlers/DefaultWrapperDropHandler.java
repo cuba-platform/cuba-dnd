@@ -17,10 +17,14 @@
 
 package com.haulmont.addon.dnd.components.defaulthandlers;
 
-import com.haulmont.cuba.gui.components.Component;
-import com.haulmont.addon.dnd.components.*;
+import com.haulmont.addon.dnd.components.DragAndDropWrapper;
+import com.haulmont.addon.dnd.components.DragAndDropWrapperTargetDetails;
+import com.haulmont.addon.dnd.components.DropHandler;
+import com.haulmont.addon.dnd.components.LayoutBoundTransferable;
 import com.haulmont.addon.dnd.components.acceptcriterion.AcceptCriterion;
 import com.haulmont.addon.dnd.components.dragevent.DragAndDropEvent;
+import com.haulmont.cuba.gui.components.Component;
+import com.haulmont.cuba.gui.components.ComponentContainer;
 
 public class DefaultWrapperDropHandler implements DropHandler {
 
@@ -45,8 +49,8 @@ public class DefaultWrapperDropHandler implements DropHandler {
         }
 
         if (sourceLayout != target) {
-            if (sourceLayout instanceof Component.Container) {
-                ((Component.Container) sourceLayout).remove(component);
+            if (sourceLayout instanceof ComponentContainer) {
+                ((ComponentContainer) sourceLayout).remove(component);
             }
             target.add(component);
         }

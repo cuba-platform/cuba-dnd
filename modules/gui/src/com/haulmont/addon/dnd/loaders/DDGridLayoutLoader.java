@@ -25,8 +25,8 @@ import com.haulmont.cuba.gui.xml.layout.ComponentLoader;
 import com.haulmont.cuba.gui.xml.layout.LayoutLoader;
 import com.haulmont.cuba.gui.xml.layout.loaders.ContainerLoader;
 import com.haulmont.cuba.gui.xml.layout.loaders.GridLayoutLoader;
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Element;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
 
     @Override
     public void createComponent() {
-        resultComponent = (DDGridLayout) factory.createComponent(DDGridLayout.NAME);
+        resultComponent = factory.create(DDGridLayout.NAME);
         loadId(resultComponent, element);
 
         Element columnsElement = element.element("columns");
@@ -69,7 +69,7 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
                 resultComponent.setColumnExpandRatio(i, 1);
             }
         } else {
-            String countAttr =  columnsElement.attributeValue("count");
+            String countAttr = columnsElement.attributeValue("count");
             if (StringUtils.isNotEmpty(countAttr)) {
                 throw new GuiDevelopmentException("'grid' element can't contain a set of 'column' elements and a 'count' attribute",
                         context.getFullFrameId(), "Grid ID", resultComponent.getId());
@@ -158,13 +158,13 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
     }
 
     protected void createSubComponents(DDGridLayout gridLayout, Element element, int row) {
-        LayoutLoader loader = new LayoutLoader(context, factory, layoutLoaderConfig);
+        LayoutLoader loader = new LayoutLoader(context);
         loader.setLocale(getLocale());
         loader.setMessagesPack(getMessagesPack());
 
         int col = 0;
 
-        for (Element subElement : (Collection<Element>) element.elements()) {
+        for (Element subElement : element.elements()) {
             ComponentLoader componentLoader = loader.createComponent(subElement);
             pendingLoadComponents.add(componentLoader);
 

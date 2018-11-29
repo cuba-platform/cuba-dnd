@@ -17,18 +17,18 @@
 
 package com.haulmont.addon.dnd.loaders;
 
-import com.haulmont.cuba.gui.components.Component;
-import com.haulmont.cuba.gui.xml.layout.loaders.AbstractBoxLoader;
 import com.haulmont.addon.dnd.components.DDHorizontalLayout;
 import com.haulmont.addon.dnd.components.enums.LayoutDragMode;
+import com.haulmont.cuba.gui.components.ComponentContainer;
+import com.haulmont.cuba.gui.xml.layout.loaders.AbstractBoxLoader;
 
 
 public class DDHorizontalLayoutLoader extends AbstractBoxLoader {
 
     @Override
     public void createComponent() {
-        resultComponent = factory.createComponent(DDHorizontalLayout.class);
-        createSubComponents((Component.Container) resultComponent, element);
+        resultComponent = factory.create(DDHorizontalLayout.class);
+        createSubComponents((ComponentContainer) resultComponent, element);
     }
 
     @Override

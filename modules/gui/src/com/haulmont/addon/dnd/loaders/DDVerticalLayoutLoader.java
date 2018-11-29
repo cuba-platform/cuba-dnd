@@ -17,9 +17,9 @@
 
 package com.haulmont.addon.dnd.loaders;
 
-import com.haulmont.addon.dnd.components.enums.LayoutDragMode;
 import com.haulmont.addon.dnd.components.DDVerticalLayout;
-import com.haulmont.cuba.gui.components.Component;
+import com.haulmont.addon.dnd.components.enums.LayoutDragMode;
+import com.haulmont.cuba.gui.components.ComponentContainer;
 import com.haulmont.cuba.gui.xml.layout.loaders.AbstractBoxLoader;
 
 
@@ -27,8 +27,8 @@ public class DDVerticalLayoutLoader extends AbstractBoxLoader {
 
     @Override
     public void createComponent() {
-        resultComponent = factory.createComponent(DDVerticalLayout.class);
-        createSubComponents((Component.Container) resultComponent, element);
+        resultComponent = factory.create(DDVerticalLayout.class);
+        createSubComponents((ComponentContainer) resultComponent, element);
     }
 
     @Override

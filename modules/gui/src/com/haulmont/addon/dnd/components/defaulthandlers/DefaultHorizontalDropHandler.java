@@ -17,12 +17,16 @@
 
 package com.haulmont.addon.dnd.components.defaulthandlers;
 
-import com.haulmont.cuba.gui.components.Component;
-import com.haulmont.addon.dnd.components.*;
+import com.haulmont.addon.dnd.components.DDHorizontalLayout;
+import com.haulmont.addon.dnd.components.DDHorizontalLayoutTargetDetails;
+import com.haulmont.addon.dnd.components.DropHandler;
+import com.haulmont.addon.dnd.components.LayoutBoundTransferable;
 import com.haulmont.addon.dnd.components.acceptcriterion.AcceptCriterion;
 import com.haulmont.addon.dnd.components.dragevent.DragAndDropEvent;
 import com.haulmont.addon.dnd.components.dragevent.Transferable;
 import com.haulmont.addon.dnd.components.enums.HorizontalDropLocation;
+import com.haulmont.cuba.gui.components.Component;
+import com.haulmont.cuba.gui.components.ComponentContainer;
 
 public class DefaultHorizontalDropHandler implements DropHandler {
 
@@ -68,8 +72,8 @@ public class DefaultHorizontalDropHandler implements DropHandler {
                 targetLayout.add(component);
             }
         } else {
-            if (sourceLayout instanceof Component.Container) {
-                ((Component.Container) sourceLayout).remove(component);
+            if (sourceLayout instanceof ComponentContainer) {
+                ((ComponentContainer) sourceLayout).remove(component);
             }
             HorizontalDropLocation loc = details.getDropLocation();
             if (loc == HorizontalDropLocation.CENTER

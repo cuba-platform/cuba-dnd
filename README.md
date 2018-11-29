@@ -216,10 +216,10 @@ For the main component added directly to the dashboard we will use `GroupBoxLayo
 Firstly, create `GroupBoxLayout` and `HBoxLayout`, specify width 100% for both components and add spacing to `HBoxLayout`:
 
 ```Java
-GroupBoxLayout groupBox = factory.createComponent(GroupBoxLayout.class);
+GroupBoxLayout groupBox = factory.create(GroupBoxLayout.class);
 groupBox.setWidth("100%");
 
-HBoxLayout layout = factory.createComponent(HBoxLayout.class);
+HBoxLayout layout = factory.create(HBoxLayout.class);
 layout.setWidth("100%");
 layout.setSpacing(true);
 ```
@@ -227,17 +227,17 @@ layout.setSpacing(true);
 Next, create main components for this panel. No need to set LookupField width as it will be expanded in HBoxLayout:
 
 ```Java
-Label countLabel = factory.createComponent(Label.class);
+Label countLabel = factory.create(Label.class);
 countLabel.setId("countLabel");
 countLabel.setWidth("30px");
 
-Label titleLabel = factory.createComponent(Label.class);
+Label titleLabel = factory.create(Label.class);
 titleLabel.setValue(((Button) component).getCaption());
 titleLabel.setWidth("60px");
 
-LookupField lookupField = factory.createComponent(LookupField.class);
+LookupField lookupField = factory.create(LookupField.class);
 
-Button deleteButton = factory.createComponent(Button.class);
+Button deleteButton = factory.create(Button.class);
 deleteButton.setIcon("font-icon:TIMES");
 ```
 

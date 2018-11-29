@@ -17,20 +17,22 @@
 
 package com.haulmont.addon.dnd.web.gui.components;
 
-import com.haulmont.addon.dnd.components.defaulthandlers.DefaultVerticalDropHandler;
-import com.haulmont.bali.util.ParamsMap;
-import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.addon.dnd.components.DDVerticalLayout;
 import com.haulmont.addon.dnd.components.DDVerticalLayoutTargetDetails;
 import com.haulmont.addon.dnd.components.DropHandler;
+import com.haulmont.addon.dnd.components.defaulthandlers.DefaultVerticalDropHandler;
 import com.haulmont.addon.dnd.components.dragevent.Constants;
 import com.haulmont.addon.dnd.components.dragevent.TargetDetails;
+import com.haulmont.bali.util.ParamsMap;
+import com.haulmont.cuba.gui.components.Component;
 import com.vaadin.event.Transferable;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public class WebDDVerticalLayout extends WebDDAbstractOrderedLayout<fi.jasoft.dragdroplayouts.DDVerticalLayout> implements DDVerticalLayout, TargetConverter {
+public class WebDDVerticalLayout extends WebDDAbstractOrderedLayout<com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDVerticalLayout> implements DDVerticalLayout, TargetConverter {
 
     protected DropHandler dropHandler;
 
@@ -72,8 +74,8 @@ public class WebDDVerticalLayout extends WebDDAbstractOrderedLayout<fi.jasoft.dr
 
     @Override
     public TargetDetails convertTargetDetails(com.vaadin.event.dd.TargetDetails targetDetails) {
-        fi.jasoft.dragdroplayouts.DDVerticalLayout.VerticalLayoutTargetDetails details =
-                (fi.jasoft.dragdroplayouts.DDVerticalLayout.VerticalLayoutTargetDetails) targetDetails;
+        com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDVerticalLayout.VerticalLayoutTargetDetails details =
+                (com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDVerticalLayout.VerticalLayoutTargetDetails) targetDetails;
 
         Map<String, Object> dataDetails = ParamsMap.of(
                 Constants.DROP_DETAIL_MOUSE_EVENT, details.getData(Constants.DROP_DETAIL_MOUSE_EVENT),
@@ -85,14 +87,14 @@ public class WebDDVerticalLayout extends WebDDAbstractOrderedLayout<fi.jasoft.dr
         return new DDVerticalLayoutTargetDetails(dataDetails, this);
     }
 
-    protected class DDVerticalLayoutImpl extends fi.jasoft.dragdroplayouts.DDVerticalLayout implements DraggedComponentWrapper {
+    protected class DDVerticalLayoutImpl extends com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDVerticalLayout implements DraggedComponentWrapper {
 
         public DDVerticalLayoutImpl() {
         }
 
         @Override
         public Component getDraggedComponent(Transferable t) {
-            fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable tr = (fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable) t;
+            com.haulmont.cuba.web.widgets.addons.dragdroplayouts.events.LayoutBoundTransferable tr = (com.haulmont.cuba.web.widgets.addons.dragdroplayouts.events.LayoutBoundTransferable) t;
             List<Component> list = new ArrayList<>(getComponents());
             for (Component child : list) {
                 if (tr.getComponent() == child.unwrap(com.vaadin.ui.Component.class)) {

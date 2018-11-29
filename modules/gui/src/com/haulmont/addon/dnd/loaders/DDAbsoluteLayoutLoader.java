@@ -17,8 +17,8 @@
 
 package com.haulmont.addon.dnd.loaders;
 
-import com.haulmont.addon.dnd.components.enums.LayoutDragMode;
 import com.haulmont.addon.dnd.components.DDAbsoluteLayout;
+import com.haulmont.addon.dnd.components.enums.LayoutDragMode;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.gui.xml.layout.loaders.ContainerLoader;
 
@@ -27,7 +27,7 @@ public class DDAbsoluteLayoutLoader extends ContainerLoader<DDAbsoluteLayout> {
 
     @Override
     public void createComponent() {
-        resultComponent = factory.createComponent(DDAbsoluteLayout.class);
+        resultComponent = factory.create(DDAbsoluteLayout.class);
         loadId(resultComponent, element);
         createSubComponents(resultComponent, element);
     }

@@ -17,7 +17,6 @@
 
 package com.haulmont.addon.dnd.components.defaulthandlers;
 
-import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.addon.dnd.components.DDCssLayout;
 import com.haulmont.addon.dnd.components.DDCssLayoutTargetDetails;
 import com.haulmont.addon.dnd.components.DropHandler;
@@ -26,6 +25,8 @@ import com.haulmont.addon.dnd.components.acceptcriterion.AcceptCriterion;
 import com.haulmont.addon.dnd.components.dragevent.DragAndDropEvent;
 import com.haulmont.addon.dnd.components.enums.HorizontalDropLocation;
 import com.haulmont.addon.dnd.components.enums.VerticalDropLocation;
+import com.haulmont.cuba.gui.components.Component;
+import com.haulmont.cuba.gui.components.ComponentContainer;
 
 public class DefaultCssDropHandler implements DropHandler {
 
@@ -79,8 +80,8 @@ public class DefaultCssDropHandler implements DropHandler {
                 }
             }
 
-            if (sourceLayout instanceof Component.Container) {
-                ((Component.Container) sourceLayout).remove(component);
+            if (sourceLayout instanceof ComponentContainer) {
+                ((ComponentContainer) sourceLayout).remove(component);
             }
             if (overIndex >= 0 && overIndex < targetLayout.getComponents().size()) {
                 targetLayout.add(component, overIndex);
