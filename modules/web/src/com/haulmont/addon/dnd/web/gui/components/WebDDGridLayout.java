@@ -18,10 +18,14 @@
 package com.haulmont.addon.dnd.web.gui.components;
 
 import com.haulmont.addon.dnd.components.defaulthandlers.DefaultGridDropHandler;
+import com.haulmont.bali.events.Subscription;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.cuba.gui.ComponentsHelper;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.gui.components.Frame;
+import com.haulmont.cuba.gui.components.MouseEventDetails;
+import com.haulmont.cuba.gui.components.ShortcutAction;
+import com.haulmont.cuba.gui.components.sys.FrameImplementation;
 import com.haulmont.cuba.web.gui.components.WebAbstractComponent;
 import com.haulmont.cuba.web.gui.components.WebComponentsHelper;
 import com.haulmont.cuba.web.gui.components.WebWrapperUtils;
@@ -41,8 +45,10 @@ import com.vaadin.shared.ui.MarginInfo;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
-public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayouts.DDGridLayout> implements DDGridLayout, TargetConverter {
+public class WebDDGridLayout extends WebAbstractComponent<com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDGridLayout> implements DDGridLayout, TargetConverter {
 
     protected List<Component> ownComponents = new ArrayList<>();
     protected LayoutEvents.LayoutClickListener layoutClickListener;
@@ -67,8 +73,8 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
             if (childComponent instanceof BelongToFrame
                     && ((BelongToFrame) childComponent).getFrame() == null) {
                 ((BelongToFrame) childComponent).setFrame(frame);
-            } else {
-                frame.registerComponent(childComponent);
+            } else if (frame instanceof FrameImplementation) {
+                ((FrameImplementation) frame).registerComponent(childComponent);
             }
         }
         ownComponents.add(childComponent);
@@ -114,8 +120,8 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
             if (childComponent instanceof BelongToFrame
                     && ((BelongToFrame) childComponent).getFrame() == null) {
                 ((BelongToFrame) childComponent).setFrame(frame);
-            } else {
-                frame.registerComponent(childComponent);
+            } else if (frame instanceof FrameImplementation) {
+                ((FrameImplementation) frame).registerComponent(childComponent);
             }
         }
         ownComponents.add(childComponent);
@@ -158,6 +164,11 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
         for (Component childComponent : components) {
             childComponent.setParent(null);
         }
+    }
+
+    @Override
+    public Stream<Component> getOwnComponentsStream() {
+        return ownComponents.stream();
     }
 
     @Override
@@ -230,8 +241,7 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
     }
 
     @Override
-    public void addLayoutClickListener(LayoutClickListener listener) {
-        getEventRouter().addListener(LayoutClickListener.class, listener);
+    public Subscription addLayoutClickListener(Consumer<LayoutClickEvent> listener) {
         if (layoutClickListener == null) {
             layoutClickListener = event -> {
                 Component childComponent = findChildComponent(this, event.getChildComponent());
@@ -239,10 +249,12 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
 
                 LayoutClickEvent layoutClickEvent = new LayoutClickEvent(this, childComponent, mouseEventDetails);
 
-                getEventRouter().fireEvent(LayoutClickListener.class, LayoutClickListener::layoutClick, layoutClickEvent);
+                publish(LayoutClickEvent.class, layoutClickEvent);
             };
             component.addLayoutClickListener(layoutClickListener);
         }
+
+        return getEventHub().subscribe(LayoutClickEvent.class, listener);
     }
 
     protected Component findChildComponent(DDGridLayout layout, com.vaadin.ui.Component clickedComponent) {
@@ -255,10 +267,9 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
     }
 
     @Override
-    public void removeLayoutClickListener(LayoutClickListener listener) {
-        getEventRouter().removeListener(LayoutClickListener.class, listener);
-
-        if (!getEventRouter().hasListeners(LayoutClickListener.class)) {
+    public void removeLayoutClickListener(Consumer<LayoutClickEvent> listener) {
+        getEventHub().unsubscribe(LayoutClickEvent.class, listener);
+        if (layoutClickListener != null && !getEventHub().hasSubscriptions(LayoutClickEvent.class)) {
             component.removeLayoutClickListener(layoutClickListener);
             layoutClickListener = null;
         }
@@ -297,18 +308,15 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
     @Override
     public void setDragFilter(DragFilter dragFilter) {
         this.dragFilter = dragFilter;
-        component.setDragFilter(new fi.jasoft.dragdroplayouts.interfaces.DragFilter() {
-            @Override
-            public boolean isDraggable(com.vaadin.ui.Component component) {
-                Component componentToCheck = null;
-                for (Component child : ownComponents) {
-                    if (component == child.unwrap(com.vaadin.ui.Component.class)) {
-                        componentToCheck = child;
-                        break;
-                    }
+        component.setDragFilter(component -> {
+            Component componentToCheck = null;
+            for (Component child : ownComponents) {
+                if (component == child.unwrap(com.vaadin.ui.Component.class)) {
+                    componentToCheck = child;
+                    break;
                 }
-                return dragFilter.isDraggable(componentToCheck);
             }
+            return dragFilter.isDraggable(componentToCheck);
         });
     }
 
@@ -316,16 +324,16 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
     public void setDragMode(LayoutDragMode startMode) {
         switch (startMode) {
             case NONE:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.NONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.NONE);
                 break;
             case CLONE:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CLONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CLONE);
                 break;
             case CLONE_OTHER:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CLONE_OTHER);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CLONE_OTHER);
                 break;
             case CAPTION:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CAPTION);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CAPTION);
                 break;
         }
     }
@@ -374,8 +382,8 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
 
     @Override
     public TargetDetails convertTargetDetails(com.vaadin.event.dd.TargetDetails targetDetails) {
-        fi.jasoft.dragdroplayouts.DDGridLayout.GridLayoutTargetDetails details =
-                (fi.jasoft.dragdroplayouts.DDGridLayout.GridLayoutTargetDetails) targetDetails;
+        com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDGridLayout.GridLayoutTargetDetails details =
+                (com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDGridLayout.GridLayoutTargetDetails) targetDetails;
 
         Map<String, Object> dataDetails = new HashMap<>();
         dataDetails.put(Constants.DROP_DETAIL_MOUSE_EVENT, details.getData(Constants.DROP_DETAIL_MOUSE_EVENT));
@@ -419,15 +427,15 @@ public class WebDDGridLayout extends WebAbstractComponent<fi.jasoft.dragdroplayo
                 vArea.getColumn2(), vArea.getRow2());
     }
 
-    protected class WebDDGridLayoutImpl extends fi.jasoft.dragdroplayouts.DDGridLayout implements DraggedComponentWrapper {
+    protected class WebDDGridLayoutImpl extends com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDGridLayout implements DraggedComponentWrapper {
 
         public WebDDGridLayoutImpl() {
         }
 
         @Override
         public Component getDraggedComponent(Transferable t) {
-            fi.jasoft.dragdroplayouts.DDGridLayout.GridLayoutTransferable tr =
-                    (fi.jasoft.dragdroplayouts.DDGridLayout.GridLayoutTransferable) t;
+            com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDGridLayout.GridLayoutTransferable tr =
+                    (com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDGridLayout.GridLayoutTransferable) t;
             for (Component component : ownComponents) {
                 if (tr.getComponent() == component.unwrap(com.vaadin.ui.Component.class)) {
                     return component;

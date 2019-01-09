@@ -22,6 +22,7 @@ import com.haulmont.addon.dnd.components.*;
 import com.haulmont.addon.dnd.components.acceptcriterion.AcceptCriterion;
 import com.haulmont.addon.dnd.components.dragevent.DragAndDropEvent;
 import com.haulmont.addon.dnd.components.enums.Unit;
+import com.haulmont.cuba.gui.components.ComponentContainer;
 
 public class DefaultAbsoluteDropHandler implements DropHandler {
 
@@ -55,8 +56,8 @@ public class DefaultAbsoluteDropHandler implements DropHandler {
             position.setTop((float) topPixelPosition, Unit.PIXELS);
             targetLayout.setPosition(component, position);
         } else {
-            if (sourceLayout instanceof Component.Container) {
-                ((Component.Container) sourceLayout).remove(component);
+            if (sourceLayout instanceof ComponentContainer) {
+                ((ComponentContainer) sourceLayout).remove(component);
             }
             ComponentPosition position = new ComponentPosition();
             position.setLeft((float) leftPixelPosition, Unit.PIXELS);

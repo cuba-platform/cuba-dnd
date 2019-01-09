@@ -19,8 +19,9 @@ package com.haulmont.addon.dnd.components;
 
 import com.haulmont.addon.dnd.components.dragevent.DropTarget;
 import com.haulmont.cuba.gui.components.Component;
+import com.haulmont.cuba.gui.components.ComponentContainer;
 
-public interface DragAndDropWrapper extends Component.Container, Component.HasCaption, Component.HasIcon, DropTarget {
+public interface DragAndDropWrapper extends ComponentContainer, Component.HasCaption, Component.HasIcon, DropTarget {
     String NAME = "dndWrapper";
 
     void setDragStartMode(DragStartMode startMode);

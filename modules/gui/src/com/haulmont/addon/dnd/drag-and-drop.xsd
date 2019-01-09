@@ -17,7 +17,7 @@
   -->
 
 <xs:schema xmlns="http://schemas.haulmont.com/dnd/0.1/drag-and-drop.xsd"
-           xmlns:window="http://schemas.haulmont.com/cuba/window.xsd"
+           xmlns:window="http://schemas.haulmont.com/cuba/screen/layout.xsd"
            attributeFormDefault="unqualified"
            elementFormDefault="qualified"
            targetNamespace="http://schemas.haulmont.com/dnd/0.1/drag-and-drop.xsd"

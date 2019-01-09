@@ -22,6 +22,7 @@ import com.haulmont.addon.dnd.components.*;
 import com.haulmont.addon.dnd.components.acceptcriterion.AcceptCriterion;
 import com.haulmont.addon.dnd.components.dragevent.DragAndDropEvent;
 import com.haulmont.addon.dnd.components.enums.VerticalDropLocation;
+import com.haulmont.cuba.gui.components.ComponentContainer;
 
 public class DefaultVerticalDropHandler implements DropHandler {
 
@@ -69,8 +70,8 @@ public class DefaultVerticalDropHandler implements DropHandler {
                 targetLayout.add(component);
             }
         } else {
-            if (sourceLayout instanceof Component.Container) {
-                ((Component.Container) sourceLayout).remove(component);
+            if (sourceLayout instanceof ComponentContainer) {
+                ((ComponentContainer) sourceLayout).remove(component);
             }
             VerticalDropLocation loc = details.getDropLocation();
             if (loc == VerticalDropLocation.MIDDLE

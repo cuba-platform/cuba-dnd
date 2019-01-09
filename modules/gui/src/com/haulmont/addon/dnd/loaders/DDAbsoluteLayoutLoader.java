@@ -27,7 +27,7 @@ public class DDAbsoluteLayoutLoader extends ContainerLoader<DDAbsoluteLayout> {
 
     @Override
     public void createComponent() {
-        resultComponent = factory.createComponent(DDAbsoluteLayout.class);
+        resultComponent = factory.create(DDAbsoluteLayout.class);
         loadId(resultComponent, element);
         createSubComponents(resultComponent, element);
     }
