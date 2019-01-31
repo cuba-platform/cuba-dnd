@@ -31,7 +31,8 @@ import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 
 import java.util.*;
 
-public class WebDDHorizontalLayout extends WebDDAbstractOrderedLayout<fi.jasoft.dragdroplayouts.DDHorizontalLayout> implements DDHorizontalLayout, TargetConverter {
+public class WebDDHorizontalLayout extends WebDDAbstractOrderedLayout<com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDHorizontalLayout>
+        implements DDHorizontalLayout, TargetConverter {
 
     protected DropHandler dropHandler;
 
@@ -73,9 +74,8 @@ public class WebDDHorizontalLayout extends WebDDAbstractOrderedLayout<fi.jasoft.
 
     @Override
     public TargetDetails convertTargetDetails(com.vaadin.event.dd.TargetDetails targetDetails) {
-
-        fi.jasoft.dragdroplayouts.DDHorizontalLayout.HorizontalLayoutTargetDetails details =
-                (fi.jasoft.dragdroplayouts.DDHorizontalLayout.HorizontalLayoutTargetDetails) targetDetails;
+        com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDHorizontalLayout.HorizontalLayoutTargetDetails details =
+                (com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDHorizontalLayout.HorizontalLayoutTargetDetails) targetDetails;
 
         Map<String, Object> dataDetails = ParamsMap.of(
                 Constants.DROP_DETAIL_MOUSE_EVENT, details.getData(Constants.DROP_DETAIL_MOUSE_EVENT),
@@ -86,14 +86,15 @@ public class WebDDHorizontalLayout extends WebDDAbstractOrderedLayout<fi.jasoft.
         return new DDHorizontalLayoutTargetDetails(dataDetails, this);
     }
 
-    protected class DDHorizontalLayoutImpl extends fi.jasoft.dragdroplayouts.DDHorizontalLayout implements DraggedComponentWrapper {
+    protected class DDHorizontalLayoutImpl extends com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDHorizontalLayout implements DraggedComponentWrapper {
 
         public DDHorizontalLayoutImpl() {
         }
 
         @Override
         public Component getDraggedComponent(Transferable t) {
-            fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable tr = (fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable) t;
+            com.haulmont.cuba.web.widgets.addons.dragdroplayouts.events.LayoutBoundTransferable tr =
+                    (com.haulmont.cuba.web.widgets.addons.dragdroplayouts.events.LayoutBoundTransferable) t;
             List<Component> list = new ArrayList<>(getComponents());
             for (Component child : list) {
                 if (tr.getComponent() == child.unwrap(com.vaadin.ui.Component.class)) {

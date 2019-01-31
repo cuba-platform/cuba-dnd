@@ -1,3 +1,8 @@
+# CUBA DnD Add-on
+
+[![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Build Status](https://travis-ci.org/cuba-platform/cuba-dnd.svg?branch=master)](https://travis-ci.org/cuba-platform/cuba-dnd)
+
 ### Preface
 The add-on provides Drag-and-Drop functionality for UI platform components [CUBA platform](https://www.cuba-platform.com).
 
@@ -19,6 +24,7 @@ Select a version of the add-on which is compatible with the platform version use
 
 | Platform Version| Add-on Version|
 |:----------------|:--------------|
+| 7.0.x           | 1.5.0         |
 | 6.10.x          | 1.4.0         |
 | 6.9.x           | 1.3.0         |
 | 6.8.x           | 1.2.0         |
@@ -27,7 +33,7 @@ Select a version of the add-on which is compatible with the platform version use
 
 Add custom application component to your project (change the version part if needed):
 ```
-com.haulmont.addon.dnd:cuba-dnd-global:1.4.0
+com.haulmont.addon.dnd:cuba-dnd-global:1.5.0
 ```
 
 
@@ -216,10 +222,10 @@ For the main component added directly to the dashboard we will use `GroupBoxLayo
 Firstly, create `GroupBoxLayout` and `HBoxLayout`, specify width 100% for both components and add spacing to `HBoxLayout`:
 
 ```Java
-GroupBoxLayout groupBox = factory.createComponent(GroupBoxLayout.class);
+GroupBoxLayout groupBox = factory.create(GroupBoxLayout.class);
 groupBox.setWidth("100%");
 
-HBoxLayout layout = factory.createComponent(HBoxLayout.class);
+HBoxLayout layout = factory.create(HBoxLayout.class);
 layout.setWidth("100%");
 layout.setSpacing(true);
 ```
@@ -227,17 +233,17 @@ layout.setSpacing(true);
 Next, create main components for this panel. No need to set LookupField width as it will be expanded in HBoxLayout:
 
 ```Java
-Label countLabel = factory.createComponent(Label.class);
+Label countLabel = factory.create(Label.class);
 countLabel.setId("countLabel");
 countLabel.setWidth("30px");
 
-Label titleLabel = factory.createComponent(Label.class);
+Label titleLabel = factory.create(Label.class);
 titleLabel.setValue(((Button) component).getCaption());
 titleLabel.setWidth("60px");
 
-LookupField lookupField = factory.createComponent(LookupField.class);
+LookupField lookupField = factory.create(LookupField.class);
 
-Button deleteButton = factory.createComponent(Button.class);
+Button deleteButton = factory.create(Button.class);
 deleteButton.setIcon("font-icon:TIMES");
 ```
 

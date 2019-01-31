@@ -18,10 +18,12 @@
 package com.haulmont.addon.dnd.web.gui.components;
 
 import com.haulmont.addon.dnd.components.defaulthandlers.DefaultCssDropHandler;
+import com.haulmont.bali.events.Subscription;
 import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.cuba.gui.ComponentsHelper;
 import com.haulmont.cuba.gui.components.Component;
+import com.haulmont.cuba.gui.components.ShortcutAction;
 import com.haulmont.cuba.web.gui.components.WebAbstractComponent;
 import com.haulmont.addon.dnd.components.DDCssLayoutTargetDetails;
 import com.haulmont.addon.dnd.components.DropHandler;
@@ -32,16 +34,18 @@ import com.haulmont.addon.dnd.components.enums.LayoutDragMode;
 import com.vaadin.event.Transferable;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
-import fi.jasoft.dragdroplayouts.DDCssLayout;
-import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
+import com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDCssLayout;
+import com.haulmont.cuba.web.widgets.addons.dragdroplayouts.events.LayoutBoundTransferable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements com.haulmont.addon.dnd.components.DDCssLayout, TargetConverter {
 
-    protected LinkedList<Component> componentsList = new LinkedList<>();
+    protected LinkedList<Component> ownComponents = new LinkedList<>();
     protected DragFilter dragFilter = DragFilter.ALL;
     protected DropHandler dropHandler;
 
@@ -52,30 +56,30 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
 
     @Override
     public void add(Component childComponent, int index) {
-        componentsList.add(index, childComponent);
+        ownComponents.add(index, childComponent);
         component.addComponent(childComponent.unwrap(com.vaadin.ui.Component.class), index);
     }
 
     @Override
     public int indexOf(Component component) {
-        return componentsList.indexOf(component);
+        return ownComponents.indexOf(component);
     }
 
     @Override
     public void add(Component childComponent) {
-        componentsList.add(childComponent);
+        ownComponents.add(childComponent);
         component.addComponent(childComponent.unwrap(com.vaadin.ui.Component.class));
     }
 
     @Override
     public void remove(Component childComponent) {
-        componentsList.remove(childComponent);
+        ownComponents.remove(childComponent);
         component.removeComponent(childComponent.unwrap(com.vaadin.ui.Component.class));
     }
 
     @Override
     public void removeAll() {
-        componentsList.clear();
+        ownComponents.clear();
         component.removeAllComponents();
     }
 
@@ -83,7 +87,7 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
     @Override
     public Component getOwnComponent(String id) {
         Preconditions.checkNotNullArgument(id);
-        Iterator<Component> iterator = componentsList.iterator();
+        Iterator<Component> iterator = ownComponents.iterator();
         while (iterator.hasNext()) {
             Component component = iterator.next();
             if (component.getId() != null) {
@@ -105,6 +109,11 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
         throw new UnsupportedOperationException("Operation not supported yet");
     }
 
+    @Override
+    public Stream<Component> getOwnComponentsStream() {
+        return ownComponents.stream();
+    }
+
     @Nullable
     @Override
     public Component getComponent(String id) {
@@ -123,7 +132,7 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
 
     @Override
     public Collection<Component> getOwnComponents() {
-        return componentsList;
+        return ownComponents;
     }
 
     @Override
@@ -132,12 +141,12 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
     }
 
     @Override
-    public void addLayoutClickListener(LayoutClickListener clickListener) {
+    public Subscription addLayoutClickListener(Consumer<LayoutClickEvent> listener) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
 
     @Override
-    public void removeLayoutClickListener(LayoutClickListener listener) {
+    public void removeLayoutClickListener(Consumer<LayoutClickEvent> listener) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
 
@@ -149,19 +158,16 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
     @Override
     public void setDragFilter(DragFilter filter) {
         this.dragFilter = filter;
-        component.setDragFilter(new fi.jasoft.dragdroplayouts.interfaces.DragFilter() {
-            @Override
-            public boolean isDraggable(com.vaadin.ui.Component component) {
-                Iterator<Component> iterator = componentsList.iterator();
-                Component componentToCheck = null;
-                while (iterator.hasNext()) {
-                    componentToCheck = iterator.next();
-                    if (componentToCheck.unwrap(com.vaadin.ui.Component.class) == component) {
-                        break;
-                    }
+        component.setDragFilter(component -> {
+            Iterator<Component> iterator = ownComponents.iterator();
+            Component componentToCheck = null;
+            while (iterator.hasNext()) {
+                componentToCheck = iterator.next();
+                if (componentToCheck.unwrap(com.vaadin.ui.Component.class) == component) {
+                    break;
                 }
-                return dragFilter.isDraggable(componentToCheck);
             }
+            return dragFilter.isDraggable(componentToCheck);
         });
     }
 
@@ -169,19 +175,19 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
     public void setDragMode(LayoutDragMode startMode) {
         switch (startMode) {
             case NONE:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.NONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.NONE);
                 break;
             case CLONE:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CLONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CLONE);
                 break;
             case CLONE_OTHER:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CLONE_OTHER);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CLONE_OTHER);
                 break;
             case CAPTION:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.CAPTION);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.CAPTION);
                 break;
             default:
-                component.setDragMode(fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode.NONE);
+                component.setDragMode(com.haulmont.cuba.web.widgets.client.addons.dragdroplayouts.ui.LayoutDragMode.NONE);
         }
     }
 
@@ -236,7 +242,7 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
                 Constants.DROP_DETAIL_TO, targetDetails.getOverIndex(),
                 Constants.DROP_DETAIL_HORIZONTAL_DROP_LOCATION, targetDetails.getHorizontalDropLocation(),
                 Constants.DROP_DETAIL_VERTICAL_DROP_LOCATION, targetDetails.getVerticalDropLocation(),
-                Constants.DROP_DETAIL_LAYOUT_COMPONENTS, componentsList
+                Constants.DROP_DETAIL_LAYOUT_COMPONENTS, ownComponents
         );
 
         return new DDCssLayoutTargetDetails(dataDetails, this);
@@ -245,7 +251,7 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
     @Nullable
     @Override
     public Component getComponent(int index) {
-        return componentsList.get(index);
+        return ownComponents.get(index);
     }
 
     protected class WebDDCssLayoutImpl extends DDCssLayout implements DraggedComponentWrapper {
@@ -256,7 +262,7 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
         @Override
         public Component getDraggedComponent(Transferable t) {
             LayoutBoundTransferable tr = (LayoutBoundTransferable) t;
-            Iterator<Component> iterator = componentsList.iterator();
+            Iterator<Component> iterator = ownComponents.iterator();
             while (iterator.hasNext()) {
                 Component componentToCheck = iterator.next();
                 if (componentToCheck.unwrap(com.vaadin.ui.Component.class) == tr.getComponent()) {

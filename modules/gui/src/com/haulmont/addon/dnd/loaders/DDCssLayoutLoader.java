@@ -21,8 +21,8 @@ import com.haulmont.cuba.gui.components.CssLayout;
 import com.haulmont.cuba.gui.xml.layout.loaders.ContainerLoader;
 import com.haulmont.addon.dnd.components.DDCssLayout;
 import com.haulmont.addon.dnd.components.enums.LayoutDragMode;
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Element;
 
 
@@ -32,7 +32,7 @@ public class DDCssLayoutLoader extends ContainerLoader<DDCssLayout> {
     }
 
     public void createComponent() {
-        resultComponent = factory.createComponent(DDCssLayout.class);
+        resultComponent = factory.create(DDCssLayout.class);
         loadId(resultComponent, element);
         this.createSubComponents(resultComponent, element);
     }

@@ -33,6 +33,7 @@ import com.vaadin.event.Transferable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class WebDragAndDropWrapper extends WebAbstractComponent<CubaDragAndDropWrapper> implements DragAndDropWrapper, TargetConverter {
 
@@ -146,7 +147,7 @@ public class WebDragAndDropWrapper extends WebAbstractComponent<CubaDragAndDropW
         if (childComponent != null) {
             return Collections.singletonList(childComponent);
         } else {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
     }
 
@@ -213,6 +214,11 @@ public class WebDragAndDropWrapper extends WebAbstractComponent<CubaDragAndDropW
                 Constants.DROP_DETAIL_HORIZONTAL_DROP_LOCATION, details.getHorizontalDropLocation()
         );
         return new DragAndDropWrapperTargetDetails(dataDetails, this);
+    }
+
+    @Override
+    public Stream<Component> getOwnComponentsStream() {
+        throw new UnsupportedOperationException("Operation not supported yet");
     }
 
     protected class DragAndDropWrapperImpl extends CubaDragAndDropWrapper implements DraggedComponentWrapper {

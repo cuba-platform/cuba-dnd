@@ -21,6 +21,7 @@ import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.addon.dnd.components.*;
 import com.haulmont.addon.dnd.components.acceptcriterion.AcceptCriterion;
 import com.haulmont.addon.dnd.components.dragevent.DragAndDropEvent;
+import com.haulmont.cuba.gui.components.ComponentContainer;
 
 public class DefaultGridDropHandler implements DropHandler {
 
@@ -48,8 +49,8 @@ public class DefaultGridDropHandler implements DropHandler {
         }
 
         if (over == null) {
-            if (sourceLayout instanceof Component.Container) {
-                ((Component.Container) sourceLayout).remove(component);
+            if (sourceLayout instanceof ComponentContainer) {
+                ((ComponentContainer) sourceLayout).remove(component);
             }
             targetLayout.add(component, col, row);
         }
