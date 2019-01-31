@@ -238,7 +238,7 @@ public class WebDDAbsoluteLayout extends WebAbstractComponent<com.haulmont.cuba.
 
     @Override
     public Stream<Component> getOwnComponentsStream() {
-        return null;
+        return components.keySet().stream();
     }
 
     protected class WebDDAbsoluteLayoutImpl extends com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDAbsoluteLayout implements DraggedComponentWrapper {
