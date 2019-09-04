@@ -16,10 +16,10 @@
  */
 
 buildscript {
-    ext.addonVersion = '1.5-SNAPSHOT'
+    ext.addonVersion = '1.6-SNAPSHOT'
     ext.addonVersion = rootProject.hasProperty('buildVersion') ? rootProject['buildVersion'] : addonVersion
 
-    ext.cubaVersion = '7.0.0'
+    ext.cubaVersion = '7.1.0'
     repositories {
         jcenter()
         maven { url "https://dl.bintray.com/cuba-platform/main" }
@@ -73,7 +73,7 @@ dependencies {
 
 }
 
-def hsql = 'org.hsqldb:hsqldb:2.2.9'
+def hsql = 'org.hsqldb:hsqldb:2.4.1'
 
 configure([globalModule, coreModule, guiModule, webModule]) {
     apply(plugin: 'java')

@@ -24,6 +24,7 @@ Select a version of the add-on which is compatible with the platform version use
 
 | Platform Version| Add-on Version|
 |:----------------|:--------------|
+| 7.1.x           | 1.6.0         |
 | 7.0.x           | 1.5.0         |
 | 6.10.x          | 1.4.0         |
 | 6.9.x           | 1.3.0         |
@@ -33,7 +34,7 @@ Select a version of the add-on which is compatible with the platform version use
 
 Add custom application component to your project (change the version part if needed):
 ```
-com.haulmont.addon.dnd:cuba-dnd-global:1.5.0
+com.haulmont.addon.dnd:cuba-dnd-global:1.6.0
 ```
 
 

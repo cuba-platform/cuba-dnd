@@ -254,6 +254,16 @@ public class WebDDCssLayout extends WebAbstractComponent<DDCssLayout> implements
         return ownComponents.get(index);
     }
 
+    @Override
+    public boolean isRequiredIndicatorVisible() {
+        return component.isRequiredIndicatorVisible();
+    }
+
+    @Override
+    public void setRequiredIndicatorVisible(boolean visible) {
+        component.setRequiredIndicatorVisible(visible);
+    }
+
     protected class WebDDCssLayoutImpl extends DDCssLayout implements DraggedComponentWrapper {
 
         public WebDDCssLayoutImpl() {

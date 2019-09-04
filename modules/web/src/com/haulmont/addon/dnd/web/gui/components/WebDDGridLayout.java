@@ -427,6 +427,16 @@ public class WebDDGridLayout extends WebAbstractComponent<com.haulmont.cuba.web.
                 vArea.getColumn2(), vArea.getRow2());
     }
 
+    @Override
+    public boolean isRequiredIndicatorVisible() {
+        return component.isRequiredIndicatorVisible();
+    }
+
+    @Override
+    public void setRequiredIndicatorVisible(boolean visible) {
+        component.setRequiredIndicatorVisible(visible);
+    }
+
     protected class WebDDGridLayoutImpl extends com.haulmont.cuba.web.widgets.addons.dragdroplayouts.DDGridLayout implements DraggedComponentWrapper {
 
         public WebDDGridLayoutImpl() {

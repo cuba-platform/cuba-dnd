@@ -45,13 +45,13 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
         Element columnsElement = element.element("columns");
         if (columnsElement == null) {
             throw new GuiDevelopmentException("'grid' element must contain 'columns' element",
-                    context.getFullFrameId(), "Grid ID", resultComponent.getId());
+                    context, "Grid ID", resultComponent.getId());
         }
 
         Element rowsElement = element.element("rows");
         if (rowsElement == null) {
             throw new GuiDevelopmentException("'grid' element must contain 'rows' element",
-                    context.getFullFrameId(), "Grid ID", resultComponent.getId());
+                    context, "Grid ID", resultComponent.getId());
         }
 
         int columnCount;
@@ -62,7 +62,7 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
                 columnCount = Integer.parseInt(columnsElement.attributeValue("count"));
             } catch (NumberFormatException e) {
                 throw new GuiDevelopmentException("'grid' element must contain either a set of 'column' elements or a 'count' attribute",
-                        context.getFullFrameId(), "Grid ID", resultComponent.getId());
+                        context, "Grid ID", resultComponent.getId());
             }
             resultComponent.setColumns(columnCount);
             for (int i = 0; i < columnCount; i++) {
@@ -72,7 +72,7 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
             String countAttr =  columnsElement.attributeValue("count");
             if (StringUtils.isNotEmpty(countAttr)) {
                 throw new GuiDevelopmentException("'grid' element can't contain a set of 'column' elements and a 'count' attribute",
-                        context.getFullFrameId(), "Grid ID", resultComponent.getId());
+                        context, "Grid ID", resultComponent.getId());
             }
             columnCount = columnElements.size();
             resultComponent.setColumns(columnCount);
@@ -159,8 +159,6 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
 
     protected void createSubComponents(DDGridLayout gridLayout, Element element, int row) {
         LayoutLoader loader = beanLocator.getPrototype(LayoutLoader.NAME, context);
-        loader.setLocale(getLocale());
-        loader.setMessagesPack(getMessagesPack());
 
         int col = 0;
 
@@ -182,7 +180,7 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
                 } else {
                     params.put("Row Index", row);
                 }
-                throw new GuiDevelopmentException("Grid column count is less than number of components in grid row", context.getFullFrameId(), params);
+                throw new GuiDevelopmentException("Grid column count is less than number of components in grid row", context, params);
             }
             while (spanMatrix[col][row]) {
                 col++;
@@ -198,7 +196,7 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
                     cspan = Integer.parseInt(colspan);
                     if (cspan < 1) {
                         throw new GuiDevelopmentException("GridLayout colspan can not be less than 1",
-                                context.getFullFrameId(), "colspan", cspan);
+                                context, "colspan", cspan);
                     }
                     if (cspan == 1) {
                         LoggerFactory.getLogger(GridLayoutLoader.class).warn("Do not use colspan=\"1\", it will have no effect");
@@ -208,8 +206,7 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
                 if (StringUtils.isNotEmpty(rowspan)) {
                     rspan = Integer.parseInt(rowspan);
                     if (rspan < 1) {
-                        throw new GuiDevelopmentException("GridLayout rowspan can not be less than 1",
-                                context.getFullFrameId(), "rowspan", rspan);
+                        throw new GuiDevelopmentException("GridLayout rowspan can not be less than 1", context, "rowspan", rspan);
                     }
                     if (rspan == 1) {
                         LoggerFactory.getLogger(GridLayoutLoader.class).warn("Do not use rowspan=\"1\", it will have no effect");
@@ -236,8 +233,7 @@ public class DDGridLayoutLoader extends ContainerLoader<DDGridLayout> {
         for (int i = col; i < (col + cspan); i++) {
             for (int j = row; j < (row + rspan); j++) {
                 if (spanMatrix[i][j]) {
-                    throw new GuiDevelopmentException("Grid layout prohibits component overlapping",
-                            context.getFullFrameId());
+                    throw new GuiDevelopmentException("Grid layout prohibits component overlapping", context);
                 }
                 spanMatrix[i][j] = true;
             }
