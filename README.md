@@ -3,8 +3,8 @@
 [![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Build Status](https://travis-ci.org/cuba-platform/cuba-dnd.svg?branch=master)](https://travis-ci.org/cuba-platform/cuba-dnd)
 
-### Preface
-The add-on provides Drag-and-Drop functionality for UI platform components [CUBA platform](https://www.cuba-platform.com).
+## Overview
+The add-on enables using drag and drop features in [CUBA](https://www.cuba-platform.com) applications.
 
 ### Dependencies
  - [Vaadin add-on dragdroplayouts](https://github.com/parttio/dragdroplayouts)
@@ -19,11 +19,43 @@ UI components with Drag-and-Drop functionality:
   - DDAbsoluteLayout;
   - DragAndDropWrapper.
 
-### Usage
-Select a version of the add-on which is compatible with the platform version used in your project:
+## Installation
 
-| Platform Version| Add-on Version|
-|:----------------|:--------------|
+The add-on can be added to your project in one of the ways described below. Installation from the Marketplace is the simplest way. The last version of the add-on compatible with the used version of the platform will be installed.
+Also, you can install the add-on by coordinates choosing the required version of the add-on from the table.
+
+In case you want to install the add-on by manual editing or by building from sources see the complete add-ons installation guide in [CUBA Platform documentation](https://doc.cuba-platform.com/manual-latest/manual.html#app_components_usage).
+
+## From the Marketplace
+
+1. Open your application in CUBA Studio. Check the latest version of CUBA Studio on the [CUBA Platform site](https://www.cuba-platform.com/download/previous-studio/).
+2. Go to *CUBA -> Marketplace* in the main menu.
+
+ ![marketplace](sreenshots/marketplace.png)
+
+3. Find the *Drag & Drop* add-on there.
+
+ ![addons](sreenshots/addons.png)
+
+4. Click *Install* and apply the changes.
+The add-on corresponding to the used platform version will be installed.
+
+## By Coordinates
+
+1. Open your application in CUBA Studio. Check the latest version of CUBA Studio on the [CUBA Platform site](https://www.cuba-platform.com/download/previous-studio/).
+2. Go to *CUBA -> Marketplace* in the main menu.
+3. Click the icon in the upper-right corner.
+
+ ![by-coordinates](sreenshots/by-coordinates.png)
+
+4. Paste the add-on coordinates in the corresponding field as follows:
+
+ `com.haulmont.addon.dnd:cuba-dnd-global:<add-on version>`
+
+ where `<add-on version>` is compatible with the used version of the CUBA platform.
+
+ | Platform Version | Add-on Version |
+|-----------------|----------------|
 | 7.1.x           | 1.6.0         |
 | 7.0.x           | 1.5.0         |
 | 6.10.x          | 1.4.0         |
@@ -32,34 +64,29 @@ Select a version of the add-on which is compatible with the platform version use
 | 6.7.x           | 1.1.0         |
 | 6.6.x           | 1.0.0         |
 
-Add custom application component to your project (change the version part if needed):
-```
-com.haulmont.addon.dnd:cuba-dnd-global:1.6.0
-```
+5. Click *Install* and apply the changes. The add-on will be installed to your project.
 
+## Usage
 
-### Description
 This add-on contains components that implement Drag-and-Drop functionality. To handle a component's drop action, it is necessary to implement DropHandler interface that contains two methods:
 - `drop(DragAndDropEvent event)` - method that handles transferable component's drop;
 - `getCriterion()` - returns the AcceptCriterion that is used to evaluate whether the dragged component will be handed over to drop method.
 
 In order to accept a Drop event, components must provide the `AcceptCriterion` object. `AcceptCriterion` interface has two main inheritors - `ServerSideCriterion` and `AcceptCriterionWrapper`. If you want to check an accept criterion on a browser side, you have to implement `AcceptCriterionWrapper` interface.
 
-### Quick start
-To use this add-on in a CUBA Studio project, follow the steps below:
+### Quick Start
 
-1. In the project properties add add-on like custom application component and save settings.
-```
-`com.haulmont.addon.dnd:cuba-dnd-global:1.2.0`
-```
-2. Create a simple screen.
+After installation the add-on in your CUBA application follow the steps below:
+
+1. Create a simple screen.
 2. Add the following namespace in the XML descriptor of the screen:
 
-```
+ ```
 xmlns:dnd="http://schemas.haulmont.com/dnd/0.1/drag-and-drop.xsd"
 ```
 
-#### Sample task
+#### Sample Task
+
 Let's try to create a small todo-list app. It will provide a predefined set of todo-actions that can be added to the todo-list.
 
 In this app we will implement the following features:
@@ -67,7 +94,7 @@ In this app we will implement the following features:
  - reordering components in the list;
  - deleting components.
 
-#### Step-by-step guide
+#### Step-by-Step Guide
 Create a new CUBA project and add the given add-on to it.
 
 ![](/sreenshots/1-Adding-addon.png "Adding add-on")
