@@ -56,6 +56,7 @@ The add-on corresponding to the used platform version will be installed.
 
  | Platform Version | Add-on Version |
 |-----------------|----------------|
+| 7.2.x           | 1.7.0         |
 | 7.1.x           | 1.6.0         |
 | 7.0.x           | 1.5.0         |
 | 6.10.x          | 1.4.0         |

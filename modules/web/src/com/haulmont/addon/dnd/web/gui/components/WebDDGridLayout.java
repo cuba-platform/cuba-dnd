@@ -245,9 +245,11 @@ public class WebDDGridLayout extends WebAbstractComponent<com.haulmont.cuba.web.
         if (layoutClickListener == null) {
             layoutClickListener = event -> {
                 Component childComponent = findChildComponent(this, event.getChildComponent());
+                Component clickedComponent = findChildComponent(this, event.getClickedComponent());
                 MouseEventDetails mouseEventDetails = WebWrapperUtils.toMouseEventDetails(event);
 
-                LayoutClickEvent layoutClickEvent = new LayoutClickEvent(this, childComponent, mouseEventDetails);
+                LayoutClickEvent layoutClickEvent =
+                        new LayoutClickEvent(this, childComponent, clickedComponent, mouseEventDetails);
 
                 publish(LayoutClickEvent.class, layoutClickEvent);
             };
